@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["Error"],"macro":["format_err"],"struct":["ErrorLayer","SpanTrace"],"trait":["ResultExt"],"type":["Result"]};

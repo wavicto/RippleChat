@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"constant":["ALPHABET"],"enum":["Z32Error"],"fn":["decode","encode"]};

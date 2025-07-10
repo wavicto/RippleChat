@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["stream_group"],"struct":["StreamGroup","WaitUntil"],"trait":["Chain","IntoStream","Merge","StreamExt","Zip"]};

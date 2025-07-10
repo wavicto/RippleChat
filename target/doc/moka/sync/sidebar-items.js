@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"struct":["Cache","CacheBuilder","Iter","OwnedKeyEntrySelector","RefKeyEntrySelector","SegmentedCache"],"trait":["ConcurrentCacheExt"],"type":["PredicateId"]};

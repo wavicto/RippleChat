@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"attr":["rpc_requests"],"enum":["Error","Request","RequestError"],"mod":["channel","rpc"],"struct":["Client","LocalSender","WithChannels"],"trait":["Channels","Receiver","RpcMessage","Sender","Service"],"type":["Result"]};

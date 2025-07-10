@@ -1,1 +1,0 @@
-searchState.loadedDescShard("enum_as_inner", 0, "enum-as-inner\nDerive functions on an Enum for easily accessing …")

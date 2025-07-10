@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["ProtocolError"],"struct":["CloseCode","Config","Limits","Message","Payload","WebSocketStream"]};

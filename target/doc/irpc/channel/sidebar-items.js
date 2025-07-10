@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["RecvError","SendError"],"mod":["mpsc","none","oneshot"]};

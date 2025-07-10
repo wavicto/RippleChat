@@ -1,1 +1,0 @@
-searchState.loadedDescShard("der_derive", 0, "RustCrypto: DER Custom Derive Support\nDerive the <code>Choice</code> trait on an <code>enum</code>.\nDerive decoders and encoders for ASN.1 <code>Enumerated</code> types on …\nDerive the <code>Sequence</code> trait on a <code>struct</code>.\nDerive the <code>ValueOrd</code> trait on a <code>struct</code>.")

@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["KeyParsingError","RelayProtocol"],"mod":["defaults","discovery","dns","endpoint","metrics","net_report","node_info","protocol"],"struct":["NodeAddr","PublicKey","RelayMap","RelayNode","RelayUrl","RelayUrlParseError","SecretKey"],"trait":["Watcher"],"type":["NodeId"]};

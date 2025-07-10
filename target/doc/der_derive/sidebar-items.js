@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"derive":["Choice","Enumerated","Sequence","ValueOrd"]};

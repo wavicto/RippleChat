@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"constant":["DEFAULT_CACHE_SIZE","DEFAULT_MAXIMUM_TTL","DEFAULT_MINIMUM_TTL","DEFAULT_RELAYS"],"mod":["errors","extra"],"struct":["Client","ClientBlocking","ClientBuilder","InMemoryCache","Keypair","PublicKey","SignedPacket","SignedPacketBuilder","Timestamp"],"trait":["Cache"],"type":["CacheKey"]};

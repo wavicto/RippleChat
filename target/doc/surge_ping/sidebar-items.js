@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["ICMP","IcmpPacket","SurgeError"],"fn":["ping"],"macro":["is_linux_icmp_socket"],"struct":["AsyncSocket","Client","Config","ConfigBuilder","Icmpv4Packet","Icmpv6Packet","PingIdentifier","PingSequence","Pinger"]};

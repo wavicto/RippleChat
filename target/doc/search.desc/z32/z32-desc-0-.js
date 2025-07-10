@@ -1,1 +1,0 @@
-searchState.loadedDescShard("z32", 0, "Zero-dependency compatible MIT licensed implementation …\nAlphabet used by zbase32\nDecode zbase32 encoded string\nEncode bytes using zbase32.\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.")

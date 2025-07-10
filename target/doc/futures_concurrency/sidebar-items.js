@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["array","concurrent_stream","future","prelude","stream","vec"]};

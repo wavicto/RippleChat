@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"constant":["UNICODE_VERSION"],"struct":["Nickname","OpaqueString","UsernameCaseMapped","UsernameCasePreserved"]};

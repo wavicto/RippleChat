@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["list","mpsc_queue","sorted_list","stack"],"struct":["List","MpscQueue","SortedList","SortedListIter","Stack","TransferStack"],"trait":["Linked"]};

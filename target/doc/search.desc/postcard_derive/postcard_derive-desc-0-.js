@@ -1,1 +1,0 @@
-searchState.loadedDescShard("postcard_derive", 0, "Derive the <code>postcard::MaxSize</code> trait for a struct or enum.\nDerive the <code>postcard_schema::Schema</code> trait for a struct or …")

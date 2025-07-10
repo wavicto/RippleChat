@@ -1,1 +1,0 @@
-searchState.loadedDescShard("hostname_validator", 0, "Validate a hostname according to the IETF RFC 1123.\nValidate a hostname according to IETF RFC 1123.")

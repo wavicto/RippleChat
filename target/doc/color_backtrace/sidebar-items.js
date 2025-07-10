@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["Verbosity"],"fn":["default_frame_filter","default_output_stream","install"],"struct":["BacktracePrinter","ColorScheme","Frame"],"trait":["Backtrace"],"type":["FilterCallback"]};

@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["Alphabet"],"fn":["decode","encode"]};

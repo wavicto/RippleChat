@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"struct":["EvictionPolicy","Policy"],"trait":["Expiry"]};

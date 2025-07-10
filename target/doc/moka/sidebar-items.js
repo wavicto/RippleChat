@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["PredicateError"],"mod":["notification","ops","policy","sync"],"struct":["Entry"]};

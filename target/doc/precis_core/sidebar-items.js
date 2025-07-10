@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"constant":["UNICODE_VERSION"],"enum":["Codepoints","DerivedPropertyValue","Error","UnexpectedError"],"mod":["context","profile","stringclasses"],"struct":["CodepointInfo"]};

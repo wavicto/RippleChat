@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["deserialize_hex_or_bin","serialize_hex_lower_or_bin","serialize_hex_upper_or_bin"]};

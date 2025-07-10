@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"derive":["MetricsGroup","MetricsGroupSet"],"enum":["Error","MetricType","MetricValue"],"fn":["parse_prometheus_metrics"],"mod":["encoding","iterable"],"struct":["Counter","Gauge","MetricItem","Registry"],"trait":["Metric","MetricsGroup","MetricsGroupSet","MetricsSource"],"type":["RwLockRegistry"]};

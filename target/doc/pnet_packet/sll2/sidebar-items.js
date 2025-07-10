@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"struct":["MutableSLL2Packet","SLL2","SLL2Iterable","SLL2Packet"]};

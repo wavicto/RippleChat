@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["ContextRuleError"],"fn":["get_context_rule","rule_arabic_indic_digits","rule_extended_arabic_indic_digits","rule_greek_lower_numeral_sign_keraia","rule_hebrew_punctuation","rule_katakana_middle_dot","rule_middle_dot","rule_zero_width_joiner","rule_zero_width_nonjoiner"],"type":["ContextRule"]};

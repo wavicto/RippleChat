@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["BuildError","ConcurrencyError","PublicKeyError","PublishError","QueryError","SignedPacketBuildError","SignedPacketVerifyError"]};
