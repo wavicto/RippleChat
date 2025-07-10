@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="data structures"><title>cordyceps - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-916cea96.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="cordyceps" data-themes="" data-resource-suffix="" data-rustdoc-version="1.87.0 (17067e9ac 2025-05-09)" data-channel="1.87.0" data-search-js="search-e7298875.js" data-settings-js="settings-d72f25bb.js" ><script src="../static.files/storage-82c7156e.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-fb8c74a8.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../cordyceps/index.html">cordyceps</a><span class="version">0.3.4</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#data-structures" title="data structures">data structures</a></li></ul><h3><a href="#modules">Crate Items</a></h3><ul class="block"><li><a href="#modules" title="Modules">Modules</a></li><li><a href="#structs" title="Structs">Structs</a></li><li><a href="#traits" title="Traits">Traits</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1>Crate <span>cordyceps</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/cordyceps/lib.rs.html#1-326">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h3 id="data-structures"><a class="doc-anchor" href="#data-structures">§</a>data structures</h3>
+<p><code>cordyceps</code> provides implementations of the following data structures:</p>
+<ul>
+<li>
+<p><strong><a href="struct.List.html" title="struct cordyceps::List"><code>List</code></a>: a mutable, doubly-linked list.</strong></p>
+<p>A <a href="struct.List.html" title="struct cordyceps::List"><code>List</code></a> provides <em>O</em>(1) insertion and removal at both the head and
+tail of the list. In addition, parts of a <a href="struct.List.html" title="struct cordyceps::List"><code>List</code></a> may be split off to
+form new <a href="struct.List.html" title="struct cordyceps::List"><code>List</code></a>s, and two <a href="struct.List.html" title="struct cordyceps::List"><code>List</code></a>s may be spliced together to form a
+single <a href="struct.List.html" title="struct cordyceps::List"><code>List</code></a>, all in <em>O</em>(1) time. The <a href="list/index.html" title="mod cordyceps::list"><code>list</code></a> module also provides
+<a href="list/struct.Cursor.html" title="struct cordyceps::list::Cursor"><code>list::Cursor</code></a> and <a href="list/struct.CursorMut.html" title="struct cordyceps::list::CursorMut"><code>list::CursorMut</code></a> types, which allow traversal and
+modification of elements in a list. Finally, elements can remove themselves
+from arbitrary positions in a <a href="struct.List.html" title="struct cordyceps::List"><code>List</code></a>, provided that they have mutable
+access to the <a href="struct.List.html" title="struct cordyceps::List"><code>List</code></a> itself. This makes the <a href="struct.List.html" title="struct cordyceps::List"><code>List</code></a> type suitable for
+use in cases where elements must be able to drop themselves while linked
+into a list.</p>
+<p>The <a href="struct.List.html" title="struct cordyceps::List"><code>List</code></a> type is <strong>not</strong> a lock-free data structure, and can only be
+modified through <code>&amp;mut</code> references.</p>
+</li>
+<li>
+<p><strong><a href="struct.MpscQueue.html" title="struct cordyceps::MpscQueue"><code>MpscQueue</code></a>: a multi-producer, single-consumer (MPSC) lock-free
+last-in, first-out (LIFO) queue.</strong></p>
+<p>A <a href="struct.MpscQueue.html" title="struct cordyceps::MpscQueue"><code>MpscQueue</code></a> is a <em>lock-free</em> concurrent data structure that allows
+multiple producers to concurrently push elements onto the queue, and a
+single consumer to dequeue elements in the order that they were pushed.</p>
+<p><a href="struct.MpscQueue.html" title="struct cordyceps::MpscQueue"><code>MpscQueue</code></a>s can be used to efficiently share data from multiple
+concurrent producers with a consumer.</p>
+<p>This structure is only available if the target supports CAS (Compare and
+Swap) atomics.</p>
+</li>
+<li>
+<p><strong><a href="struct.SortedList.html" title="struct cordyceps::SortedList"><code>SortedList</code></a>: a mutable, singly-linked list, with elements stored
+in sorted order.</strong></p>
+<p>This is a simple, singly-linked list with <em>O</em>(<em>n</em>) insertion and <em>O</em>(1)
+pop operations. The push operation performs an insertion sort, while the
+pop operation removes the item at the front of the list. The front/back
+sorting order is based on <a href="https://doc.rust-lang.org/1.87.0/core/cmp/enum.Ordering.html" title="enum core::cmp::Ordering"><code>Ordering</code></a> and can be
+min- or max-oriented, or a custom ordering function can be provided.</p>
+<p>The <a href="struct.SortedList.html" title="struct cordyceps::SortedList"><code>SortedList</code></a> type is <strong>not</strong> a lock-free data structure, and can
+only be modified through <code>&amp;mut</code> references.</p>
+</li>
+<li>
+<p><strong><a href="struct.Stack.html" title="struct cordyceps::Stack"><code>Stack</code></a>: a mutable, singly-linked first-in, first-out (FIFO)
+stack.</strong></p>
+<p>This is a simple, singly-linked stack with <em>O</em>(1) push and pop
+operations. The pop operation returns the <em>last</em> element pushed to the
+stack. A <a href="struct.Stack.html" title="struct cordyceps::Stack"><code>Stack</code></a> also implements the <a href="https://doc.rust-lang.org/1.87.0/core/iter/traits/iterator/trait.Iterator.html" title="trait core::iter::traits::iterator::Iterator"><code>Iterator</code></a> trait; iterating over
+a stack pops elements from the end of the list.</p>
+<p>The <a href="struct.Stack.html" title="struct cordyceps::Stack"><code>Stack</code></a> type is <strong>not</strong> a lock-free data structure, and can only be
+modified through <code>&amp;mut</code> references.</p>
+</li>
+<li>
+<p><strong><a href="struct.TransferStack.html" title="struct cordyceps::TransferStack"><code>TransferStack</code></a>: a lock-free, multi-producer FIFO stack, where
+all elements currently in the stack are popped in a single atomic operation.</strong></p>
+<p>A <a href="struct.TransferStack.html" title="struct cordyceps::TransferStack"><code>TransferStack</code></a> is a lock-free data structure where multiple producers
+can <a href="struct.TransferStack.html#method.push" title="method cordyceps::TransferStack::push">concurrently push elements</a> to the end of
+the stack through immutable <code>&amp;</code> references. A consumer can <a href="struct.TransferStack.html#method.take_all" title="method cordyceps::TransferStack::take_all">pop all
+elements currently in the <code>TransferStack</code></a>
+in a single atomic operation, returning a new <a href="struct.Stack.html" title="struct cordyceps::Stack"><code>Stack</code></a>. Pushing an
+element, and taking all elements in the <a href="struct.TransferStack.html" title="struct cordyceps::TransferStack"><code>TransferStack</code></a> are both <em>O</em>(1)
+operations.</p>
+<p>A <a href="struct.TransferStack.html" title="struct cordyceps::TransferStack"><code>TransferStack</code></a> can be used to efficiently transfer ownership of
+resources from multiple producers to a consumer, such as for reuse or
+cleanup.</p>
+<p>This structure is only available if the target supports CAS (Compare and
+Swap) atomics.</p>
+</li>
+</ul>
+</div></details><h2 id="modules" class="section-header">Modules<a href="#modules" class="anchor">§</a></h2><dl class="item-table"><dt><a class="mod" href="list/index.html" title="mod cordyceps::list">list</a></dt><dd>An intrusive doubly-linked list.</dd><dt><a class="mod" href="mpsc_queue/index.html" title="mod cordyceps::mpsc_queue">mpsc_<wbr>queue</a></dt><dd>A multi-producer, single-consumer (MPSC) queue, implemented using a
+lock-free <a href="index.html#intrusive-data-structures" title="mod cordyceps">intrusive</a> singly-linked list.</dd><dt><a class="mod" href="sorted_list/index.html" title="mod cordyceps::sorted_list">sorted_<wbr>list</a></dt><dd><a href="index.html#intrusive-data-structures" title="mod cordyceps">Intrusive</a>, singly-linked, sorted, linked list.</dd><dt><a class="mod" href="stack/index.html" title="mod cordyceps::stack">stack</a></dt><dd><a href="index.html#intrusive-data-structures" title="mod cordyceps">Intrusive</a>, singly-linked first-in, first-out (FIFO) stacks.</dd></dl><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.List.html" title="struct cordyceps::List">List</a></dt><dd>An <a href="index.html#intrusive-data-structures" title="mod cordyceps">intrusive</a> doubly-linked list.</dd><dt><a class="struct" href="struct.MpscQueue.html" title="struct cordyceps::MpscQueue">Mpsc<wbr>Queue</a></dt><dd>A multi-producer, single-consumer (MPSC) queue, implemented using a
+lock-free <a href="index.html#intrusive-data-structures" title="mod cordyceps">intrusive</a> singly-linked list.</dd><dt><a class="struct" href="struct.SortedList.html" title="struct cordyceps::SortedList">Sorted<wbr>List</a></dt><dd>A sorted singly linked list</dd><dt><a class="struct" href="struct.SortedListIter.html" title="struct cordyceps::SortedListIter">Sorted<wbr>List<wbr>Iter</a></dt><dd>A borrowing iterator of a <a href="struct.SortedList.html" title="struct cordyceps::SortedList"><code>SortedList</code></a></dd><dt><a class="struct" href="struct.Stack.html" title="struct cordyceps::Stack">Stack</a></dt><dd>An <a href="index.html#intrusive-data-structures" title="mod cordyceps">intrusive</a> singly-linked mutable FIFO stack.</dd><dt><a class="struct" href="struct.TransferStack.html" title="struct cordyceps::TransferStack">Transfer<wbr>Stack</a></dt><dd>An <a href="index.html#intrusive-data-structures" title="mod cordyceps">intrusive</a> lock-free singly-linked FIFO stack, where all entries
+currently in the stack are consumed in a single atomic operation.</dd></dl><h2 id="traits" class="section-header">Traits<a href="#traits" class="anchor">§</a></h2><dl class="item-table"><dt><a class="trait" href="trait.Linked.html" title="trait cordyceps::Linked">Linked</a></dt><dd>Trait implemented by types which can be members of an <a href="index.html#intrusive-data-structures" title="mod cordyceps">intrusive collection</a>.</dd></dl></section></div></main></body></html>

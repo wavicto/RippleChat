@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["RData","TYPE"],"struct":["A","AAAA","AFSDB","CAA","CERT","CNAME","DHCID","DNSKEY","DS","EUI48","EUI64","HINFO","HTTPS","IPSECKEY","ISDN","KX","LOC","MB","MD","MF","MG","MINFO","MR","MX","NAPTR","NS","NSAP","NSAP_PTR","NSEC","NULL","OPT","OPTCode","PTR","RP","RRSIG","RouteThrough","SOA","SRV","SVCB","TXT","WKS","X25","ZONEMD"]};

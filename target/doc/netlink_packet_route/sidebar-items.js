@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["AddressFamily","IpProtocol","RouteNetlinkMessage"],"mod":["address","link","neighbour","neighbour_table","nsid","prefix","route","rule","tc"],"struct":["RouteNetlinkMessageBuffer"]};

@@ -1,0 +1,102 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="RustCrypto: `crypto_secretbox`"><title>crypto_secretbox - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-916cea96.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="crypto_secretbox" data-themes="" data-resource-suffix="" data-rustdoc-version="1.87.0 (17067e9ac 2025-05-09)" data-channel="1.87.0" data-search-js="search-e7298875.js" data-settings-js="settings-d72f25bb.js" ><script src="../static.files/storage-82c7156e.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-fb8c74a8.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-893ab5e7.css"></noscript><link rel="icon" href="https://raw.githubusercontent.com/RustCrypto/meta/master/logo.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button><a class="logo-container" href="../crypto_secretbox/index.html"><img src="https://raw.githubusercontent.com/RustCrypto/meta/master/logo.svg" alt=""></a></nav><nav class="sidebar"><div class="sidebar-crate"><a class="logo-container" href="../crypto_secretbox/index.html"><img src="https://raw.githubusercontent.com/RustCrypto/meta/master/logo.svg" alt="logo"></a><h2><a href="../crypto_secretbox/index.html">crypto_<wbr>secretbox</a><span class="version">0.1.1</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#rustcrypto-crypto_secretbox" title="RustCrypto: `crypto_secretbox`">RustCrypto: <code>crypto_secretbox</code></a><ul><li><a href="#security-warning" title="Security Warning">Security Warning</a></li><li><a href="#license" title="License">License</a></li></ul></li><li><a href="#usage" title="Usage">Usage</a><ul><li><a href="#in-place-usage-eliminates-alloc-requirement" title="In-place Usage (eliminates `alloc` requirement)">In-place Usage (eliminates <code>alloc</code> requirement)</a></li></ul></li></ul><h3><a href="#reexports">Crate Items</a></h3><ul class="block"><li><a href="#reexports" title="Re-exports">Re-exports</a></li><li><a href="#modules" title="Modules">Modules</a></li><li><a href="#structs" title="Structs">Structs</a></li><li><a href="#traits" title="Traits">Traits</a></li><li><a href="#types" title="Type Aliases">Type Aliases</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1>Crate <span>crypto_secretbox</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/crypto_secretbox/lib.rs.html#1-367">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="rustcrypto-crypto_secretbox"><a class="doc-anchor" href="#rustcrypto-crypto_secretbox">§</a>RustCrypto: <code>crypto_secretbox</code></h2>
+<p><a href="https://crates.io/crates/crypto_secretbox"><img src="https://buildstats.info/crate/crypto_secretbox" alt="crate" /></a>
+<a href="https://docs.rs/crypto_secretbox/"><img src="https://docs.rs/crypto_secretbox/badge.svg" alt="Docs" /></a>
+<img src="https://img.shields.io/badge/license-Apache2.0/MIT-blue.svg" alt="Apache2/MIT licensed" />
+<img src="https://img.shields.io/badge/rustc-1.60+-blue.svg" alt="Rust Version" />
+<a href="https://rustcrypto.zulipchat.com/#narrow/stream/260038-AEADs"><img src="https://img.shields.io/badge/zulip-join_chat-blue.svg" alt="Project Chat" /></a>
+<a href="https://github.com/RustCrypto/nacl-compat/actions/workflows/crypto_secretbox.yml"><img src="https://github.com/RustCrypto/nacl-compat/actions/workflows/crypto_secretbox.yml/badge.svg" alt="Build Status" /></a></p>
+<p><a href="https://nacl.cr.yp.to/secretbox.html"><code>crypto_secretbox</code></a> is an <a href="https://en.wikipedia.org/wiki/Authenticated_encryption">authenticated symmetric encryption</a> cipher
+amenable to fast, constant-time implementations in software, combining either the
+<a href="https://github.com/RustCrypto/stream-ciphers/tree/master/salsa20">Salsa20</a> stream cipher (with <a href="https://cr.yp.to/snuffle/xsalsa-20081128.pdf">XSalsa20</a> 192-bit nonce extension) or
+<a href="https://cr.yp.to/chacha.html">ChaCha20</a> stream cipher with the <a href="https://github.com/RustCrypto/universal-hashes/tree/master/poly1305">Poly1305</a> universal hash function,
+which acts as a message authentication code.</p>
+<p>This algorithm has largely been replaced by the newer IETF variant of
+<a href="https://github.com/RustCrypto/AEADs/tree/master/chacha20poly1305">ChaCha20Poly1305</a> (and the associated <a href="https://docs.rs/chacha20poly1305/latest/chacha20poly1305/struct.XChaCha20Poly1305.html">XChaCha20Poly1305</a>) AEAD
+ciphers (<a href="https://tools.ietf.org/html/rfc8439">RFC 8439</a>), but is useful for interoperability with legacy
+NaCl-based protocols.</p>
+<p><a href="https://docs.rs/crypto_secretbox/">Documentation</a></p>
+<h3 id="security-warning"><a class="doc-anchor" href="#security-warning">§</a>Security Warning</h3>
+<p>No security audits of this crate have ever been performed, and it has not been
+thoroughly assessed to ensure its operation is constant-time on common CPU
+architectures.</p>
+<p>USE AT YOUR OWN RISK!</p>
+<h3 id="license"><a class="doc-anchor" href="#license">§</a>License</h3>
+<p>Licensed under either of:</p>
+<ul>
+<li><a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a></li>
+<li><a href="http://opensource.org/licenses/MIT">MIT license</a></li>
+</ul>
+<p>at your option.</p>
+<h4 id="contribution"><a class="doc-anchor" href="#contribution">§</a>Contribution</h4>
+<p>Unless you explicitly state otherwise, any contribution intentionally submitted
+for inclusion in the work by you, as defined in the Apache-2.0 license, shall be
+dual licensed as above, without any additional terms or conditions.</p>
+<h2 id="usage"><a class="doc-anchor" href="#usage">§</a>Usage</h2>
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">use </span>crypto_secretbox::{
+    aead::{Aead, AeadCore, KeyInit, OsRng},
+    XSalsa20Poly1305, Nonce
+};
+
+<span class="kw">let </span>key = XSalsa20Poly1305::generate_key(<span class="kw-2">&amp;mut </span>OsRng);
+<span class="kw">let </span>cipher = XSalsa20Poly1305::new(<span class="kw-2">&amp;</span>key);
+<span class="kw">let </span>nonce = XSalsa20Poly1305::generate_nonce(<span class="kw-2">&amp;mut </span>OsRng); <span class="comment">// unique per message
+</span><span class="kw">let </span>ciphertext = cipher.encrypt(<span class="kw-2">&amp;</span>nonce, <span class="string">b"plaintext message"</span>.as_ref())<span class="question-mark">?</span>;
+<span class="kw">let </span>plaintext = cipher.decrypt(<span class="kw-2">&amp;</span>nonce, ciphertext.as_ref())<span class="question-mark">?</span>;
+<span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>plaintext, <span class="string">b"plaintext message"</span>);</code></pre></div>
+<h3 id="in-place-usage-eliminates-alloc-requirement"><a class="doc-anchor" href="#in-place-usage-eliminates-alloc-requirement">§</a>In-place Usage (eliminates <code>alloc</code> requirement)</h3>
+<p>This crate has an optional <code>alloc</code> feature which can be disabled in e.g.
+microcontroller environments that don’t have a heap.</p>
+<p>The <a href="trait.AeadInPlace.html#method.encrypt_in_place" title="method crypto_secretbox::AeadInPlace::encrypt_in_place"><code>AeadInPlace::encrypt_in_place</code></a> and <a href="trait.AeadInPlace.html#method.decrypt_in_place" title="method crypto_secretbox::AeadInPlace::decrypt_in_place"><code>AeadInPlace::decrypt_in_place</code></a>
+methods accept any type that impls the <a href="../aead/trait.Buffer.html" title="trait aead::Buffer"><code>aead::Buffer</code></a> trait which
+contains the plaintext for encryption or ciphertext for decryption.</p>
+<p>Note that if you enable the <code>heapless</code> feature of this crate,
+you will receive an impl of <a href="../aead/trait.Buffer.html" title="trait aead::Buffer"><code>aead::Buffer</code></a> for <code>heapless::Vec</code>
+(re-exported from the <code>aead</code> crate as [<code>aead::heapless::Vec</code>]),
+which can then be passed as the <code>buffer</code> parameter to the in-place encrypt
+and decrypt methods:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">use </span>crypto_secretbox::{
+    aead::{AeadCore, AeadInPlace, KeyInit, OsRng, heapless::Vec},
+    XSalsa20Poly1305, Nonce,
+};
+
+<span class="kw">let </span>key = XSalsa20Poly1305::generate_key(<span class="kw-2">&amp;mut </span>OsRng);
+<span class="kw">let </span>cipher = XSalsa20Poly1305::new(<span class="kw-2">&amp;</span>key);
+<span class="kw">let </span>nonce = XSalsa20Poly1305::generate_nonce(<span class="kw-2">&amp;mut </span>OsRng); <span class="comment">// unique per message
+
+</span><span class="kw">let </span><span class="kw-2">mut </span>buffer: Vec&lt;u8, <span class="number">128</span>&gt; = Vec::new(); <span class="comment">// Note: buffer needs 16-bytes overhead for auth tag
+</span>buffer.extend_from_slice(<span class="string">b"plaintext message"</span>);
+
+<span class="comment">// Encrypt `buffer` in-place, replacing the plaintext contents with ciphertext
+</span>cipher.encrypt_in_place(<span class="kw-2">&amp;</span>nonce, <span class="string">b""</span>, <span class="kw-2">&amp;mut </span>buffer)<span class="question-mark">?</span>;
+
+<span class="comment">// `buffer` now contains the message ciphertext
+</span><span class="macro">assert_ne!</span>(<span class="kw-2">&amp;</span>buffer, <span class="string">b"plaintext message"</span>);
+
+<span class="comment">// Decrypt `buffer` in-place, replacing its ciphertext context with the original plaintext
+</span>cipher.decrypt_in_place(<span class="kw-2">&amp;</span>nonce, <span class="string">b""</span>, <span class="kw-2">&amp;mut </span>buffer)<span class="question-mark">?</span>;
+<span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>buffer, <span class="string">b"plaintext message"</span>);</code></pre></div>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>crypto_secretbox::XSalsa20Poly1305;
+<span class="kw">use </span>crypto_secretbox::aead::{AeadCore, AeadInPlace, KeyInit, generic_array::GenericArray};
+<span class="kw">use </span>crypto_secretbox::aead::heapless::Vec;
+
+<span class="kw">let </span>key = GenericArray::from_slice(<span class="string">b"an example very very secret key."</span>);
+<span class="kw">let </span>cipher = XSalsa20Poly1305::new(key);
+
+<span class="kw">let </span>nonce = GenericArray::from_slice(<span class="string">b"extra long unique nonce!"</span>); <span class="comment">// 24-bytes; unique
+
+</span><span class="kw">let </span><span class="kw-2">mut </span>buffer: Vec&lt;u8, <span class="number">128</span>&gt; = Vec::new();
+buffer.extend_from_slice(<span class="string">b"plaintext message"</span>);
+
+<span class="comment">// Encrypt `buffer` in-place, replacing the plaintext contents with ciphertext
+</span>cipher.encrypt_in_place(nonce, <span class="string">b""</span>, <span class="kw-2">&amp;mut </span>buffer).expect(<span class="string">"encryption failure!"</span>);
+
+<span class="comment">// `buffer` now contains the message ciphertext
+</span><span class="macro">assert_ne!</span>(<span class="kw-2">&amp;</span>buffer, <span class="string">b"plaintext message"</span>);
+
+<span class="comment">// Decrypt `buffer` in-place, replacing its ciphertext context with the original plaintext
+</span>cipher.decrypt_in_place(nonce, <span class="string">b""</span>, <span class="kw-2">&amp;mut </span>buffer).expect(<span class="string">"decryption failure!"</span>);
+<span class="macro">assert_eq!</span>(<span class="kw-2">&amp;</span>buffer, <span class="string">b"plaintext message"</span>);</code></pre></div>
+</div></details><h2 id="reexports" class="section-header">Re-exports<a href="#reexports" class="anchor">§</a></h2><dl class="item-table reexports"><dt id="reexport.aead"><code>pub use <a class="mod" href="../aead/index.html" title="mod aead">aead</a>;</code></dt><dt id="reexport.cipher"><code>pub use <a class="mod" href="../cipher/index.html" title="mod cipher">cipher</a>;</code></dt></dl><h2 id="modules" class="section-header">Modules<a href="#modules" class="anchor">§</a></h2><dl class="item-table"><dt><a class="mod" href="consts/index.html" title="mod crypto_secretbox::consts">consts</a></dt></dl><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.Error.html" title="struct crypto_secretbox::Error">Error</a></dt><dd>Error type.</dd><dt><a class="struct" href="struct.SecretBox.html" title="struct crypto_secretbox::SecretBox">Secret<wbr>Box</a></dt><dd>The NaCl <code>crypto_secretbox</code> authenticated symmetric encryption primitive,
+generic</dd></dl><h2 id="traits" class="section-header">Traits<a href="#traits" class="anchor">§</a></h2><dl class="item-table"><dt><a class="trait" href="trait.AeadCore.html" title="trait crypto_secretbox::AeadCore">Aead<wbr>Core</a></dt><dd>Authenticated Encryption with Associated Data (AEAD) algorithm core trait.</dd><dt><a class="trait" href="trait.AeadInPlace.html" title="trait crypto_secretbox::AeadInPlace">Aead<wbr>InPlace</a></dt><dd>In-place stateless AEAD trait.</dd><dt><a class="trait" href="trait.Kdf.html" title="trait crypto_secretbox::Kdf">Kdf</a></dt><dd>Key derivation function: trait for abstracting over HSalsa20 and HChaCha20.</dd><dt><a class="trait" href="trait.KeyInit.html" title="trait crypto_secretbox::KeyInit">KeyInit</a></dt><dd>Types which can be initialized from key.</dd><dt><a class="trait" href="trait.KeySizeUser.html" title="trait crypto_secretbox::KeySizeUser">KeySize<wbr>User</a></dt><dd>Types which use key for initialization.</dd></dl><h2 id="types" class="section-header">Type Aliases<a href="#types" class="anchor">§</a></h2><dl class="item-table"><dt><a class="type" href="type.Key.html" title="type crypto_secretbox::Key">Key</a></dt><dd>Key type.</dd><dt><a class="type" href="type.Nonce.html" title="type crypto_secretbox::Nonce">Nonce</a></dt><dd>Nonce type.</dd><dt><a class="type" href="type.Tag.html" title="type crypto_secretbox::Tag">Tag</a></dt><dd>Poly1305 tag.</dd><dt><a class="type" href="type.XChaCha20Poly1305.html" title="type crypto_secretbox::XChaCha20Poly1305">XCha<wbr>Cha20<wbr>Poly1305</a></dt><dd><code>crypto_secretbox</code> instantiated with the XChaCha20 stream cipher.</dd><dt><a class="type" href="type.XSalsa20Poly1305.html" title="type crypto_secretbox::XSalsa20Poly1305">XSalsa20<wbr>Poly1305</a></dt><dd><code>crypto_secretbox</code> instantiated with the XSalsa20 stream cipher.</dd></dl></section></div></main></body></html>

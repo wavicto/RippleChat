@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["InterfaceType"],"fn":["get_default_interface","get_interfaces","get_local_ipaddr"],"struct":["Interface"]};

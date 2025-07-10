@@ -1,0 +1,1 @@
+searchState.loadedDescShard("irpc_derive", 0, "Processes an RPC request enum and generates channel …")

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["NLMSG_ALIGNTO","NLMSG_DONE","NLMSG_ERROR","NLMSG_NOOP","NLMSG_OVERRUN"],"enum":["NetlinkPayload"],"mod":["buffer","constants","done","error","header"],"struct":["NetlinkMessage"],"trait":["NetlinkDeserializable","NetlinkSerializable"]};

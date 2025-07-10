@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A minimal RPC library for use with iroh."><title>irpc - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-916cea96.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="irpc" data-themes="" data-resource-suffix="" data-rustdoc-version="1.87.0 (17067e9ac 2025-05-09)" data-channel="1.87.0" data-search-js="search-e7298875.js" data-settings-js="settings-d72f25bb.js" ><script src="../static.files/storage-82c7156e.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-fb8c74a8.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../irpc/index.html">irpc</a><span class="version">0.5.0</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#a-minimal-rpc-library-for-use-with-iroh" title="A minimal RPC library for use with iroh.">A minimal RPC library for use with iroh.</a><ul><li><a href="#goals" title="Goals">Goals</a></li><li><a href="#non-goals" title="Non-goals">Non-goals</a></li><li><a href="#interaction-patterns" title="Interaction patterns">Interaction patterns</a></li><li><a href="#transports" title="Transports">Transports</a></li><li><a href="#serialization" title="Serialization">Serialization</a></li><li><a href="#features" title="Features">Features</a></li></ul></li><li><a href="#history" title="History">History</a></li></ul><h3><a href="#modules">Crate Items</a></h3><ul class="block"><li><a href="#modules" title="Modules">Modules</a></li><li><a href="#structs" title="Structs">Structs</a></li><li><a href="#enums" title="Enums">Enums</a></li><li><a href="#traits" title="Traits">Traits</a></li><li><a href="#types" title="Type Aliases">Type Aliases</a></li><li><a href="#attributes" title="Attribute Macros">Attribute Macros</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1>Crate <span>irpc</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/irpc/lib.rs.html#1-1743">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="a-minimal-rpc-library-for-use-with-iroh"><a class="doc-anchor" href="#a-minimal-rpc-library-for-use-with-iroh">§</a>A minimal RPC library for use with <a href="https://docs.rs/iroh/latest/iroh/index.html">iroh</a>.</h2><h3 id="goals"><a class="doc-anchor" href="#goals">§</a>Goals</h3>
+<p>The main goal of this library is to provide an rpc framework that is so
+lightweight that it can be also used for async boundaries within a single
+process without any overhead, instead of the usual practice of a mpsc channel
+with a giant message enum where each enum case contains mpsc or oneshot
+backchannels.</p>
+<p>The second goal is to lightly abstract over remote and local communication,
+so that a system can be interacted with cross process or even across networks.</p>
+<h3 id="non-goals"><a class="doc-anchor" href="#non-goals">§</a>Non-goals</h3>
+<ul>
+<li>Cross language interop. This is for talking from rust to rust</li>
+<li>Any kind of versioning. You have to do this yourself</li>
+<li>Making remote message passing look like local async function calls</li>
+<li>Being runtime agnostic. This is for tokio</li>
+</ul>
+<h3 id="interaction-patterns"><a class="doc-anchor" href="#interaction-patterns">§</a>Interaction patterns</h3>
+<p>For each request, there can be a response and update channel. Each channel
+can be either oneshot, carry multiple messages, or be disabled. This enables
+the typical interaction patterns known from libraries like grpc:</p>
+<ul>
+<li>rpc: 1 request, 1 response</li>
+<li>server streaming: 1 request, multiple responses</li>
+<li>client streaming: multiple requests, 1 response</li>
+<li>bidi streaming: multiple requests, multiple responses</li>
+</ul>
+<p>as well as more complex patterns. It is however not possible to have multiple
+differently typed tx channels for a single message type.</p>
+<h3 id="transports"><a class="doc-anchor" href="#transports">§</a>Transports</h3>
+<p>We don’t abstract over the send and receive stream. These must always be
+quinn streams, specifically streams from the [iroh quinn fork].</p>
+<p>This restricts the possible rpc transports to quinn (QUIC with dial by
+socket address) and iroh (QUIC with dial by node id).</p>
+<p>An upside of this is that the quinn streams can be tuned for each rpc
+request, e.g. by setting the stream priority or by directy using more
+advanced part of the quinn SendStream and RecvStream APIs such as out of
+order receiving.</p>
+<h3 id="serialization"><a class="doc-anchor" href="#serialization">§</a>Serialization</h3>
+<p>Serialization is currently done using [postcard]. Messages are always
+length prefixed with postcard varints, even in the case of oneshot
+channels.</p>
+<p>Serialization only happens for cross process rpc communication.</p>
+<p>However, the requirement for message enums to be serializable is present even
+when disabling the <code>rpc</code> feature. Due to the fact that the channels live
+outside the message, this is not a big restriction.</p>
+<h3 id="features"><a class="doc-anchor" href="#features">§</a>Features</h3>
+<ul>
+<li><code>rpc</code>: Enable the rpc features. Enabled by default.
+By disabling this feature, all rpc related dependencies are removed.
+The remaining dependencies are just serde, tokio and tokio-util.</li>
+<li><code>message_spans</code>: Enable tracing spans for messages. Enabled by default.
+This is useful even without rpc, to not lose tracing context when message
+passing. This is frequently done manually. This obviously requires
+a dependency on tracing.</li>
+<li><code>quinn_endpoint_setup</code>: Easy way to create quinn endpoints. This is useful
+both for testing and for rpc on localhost. Enabled by default.</li>
+</ul>
+<h2 id="history"><a class="doc-anchor" href="#history">§</a>History</h2>
+<p>This crate evolved out of the <a href="https://docs.rs/quic-rpc/latest/quic-rpc/index.html">quic-rpc</a> crate, which is a generic RPC
+framework for any transport with cheap streams such as QUIC. Compared to
+quic-rpc, this crate does not abstract over the stream type and is focused
+on <a href="https://docs.rs/iroh/latest/iroh/index.html">iroh</a> and our <a href="https://docs.rs/iroh-quinn/latest/iroh-quinn/index.html">iroh quinn fork</a>.</p>
+</div></details><h2 id="modules" class="section-header">Modules<a href="#modules" class="anchor">§</a></h2><dl class="item-table"><dt><a class="mod" href="channel/index.html" title="mod irpc::channel">channel</a></dt><dd>Channels that abstract over local or remote sending</dd><dt><a class="mod" href="rpc/index.html" title="mod irpc::rpc">rpc</a></dt></dl><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.Client.html" title="struct irpc::Client">Client</a></dt><dd>A client to the service <code>S</code> using the local message type <code>M</code> and the remote
+message type <code>R</code>.</dd><dt><a class="struct" href="struct.LocalSender.html" title="struct irpc::LocalSender">Local<wbr>Sender</a></dt><dd>A local sender for the service <code>S</code> using the message type <code>M</code>.</dd><dt><a class="struct" href="struct.WithChannels.html" title="struct irpc::WithChannels">With<wbr>Channels</a></dt><dd>A wrapper for a message with channels to send and receive it.
+This expands the protocol message to a full message that includes the
+active and unserializable channels.</dd></dl><h2 id="enums" class="section-header">Enums<a href="#enums" class="anchor">§</a></h2><dl class="item-table"><dt><a class="enum" href="enum.Error.html" title="enum irpc::Error">Error</a></dt><dd>Error type that subsumes all possible errors in this crate, for convenience.</dd><dt><a class="enum" href="enum.Request.html" title="enum irpc::Request">Request</a></dt><dd>A request to a service. This can be either local or remote.</dd><dt><a class="enum" href="enum.RequestError.html" title="enum irpc::RequestError">Request<wbr>Error</a></dt><dd>Error when opening a request. When cross-process rpc is disabled, this is
+an empty enum since local requests can not fail.</dd></dl><h2 id="traits" class="section-header">Traits<a href="#traits" class="anchor">§</a></h2><dl class="item-table"><dt><a class="trait" href="trait.Channels.html" title="trait irpc::Channels">Channels</a></dt><dd>Trait to specify channels for a message and service</dd><dt><a class="trait" href="trait.Receiver.html" title="trait irpc::Receiver">Receiver</a></dt><dd>Sealed marker trait for a receiver</dd><dt><a class="trait" href="trait.RpcMessage.html" title="trait irpc::RpcMessage">RpcMessage</a></dt><dd>Requirements for a RPC message</dd><dt><a class="trait" href="trait.Sender.html" title="trait irpc::Sender">Sender</a></dt><dd>Sealed marker trait for a sender</dd><dt><a class="trait" href="trait.Service.html" title="trait irpc::Service">Service</a></dt><dd>Marker trait for a service</dd></dl><h2 id="types" class="section-header">Type Aliases<a href="#types" class="anchor">§</a></h2><dl class="item-table"><dt><a class="type" href="type.Result.html" title="type irpc::Result">Result</a></dt><dd>Type alias for a result with an irpc error type.</dd></dl><h2 id="attributes" class="section-header">Attribute Macros<a href="#attributes" class="anchor">§</a></h2><dl class="item-table"><dt><a class="attr" href="attr.rpc_requests.html" title="attr irpc::rpc_requests">rpc_<wbr>requests</a></dt><dd>Processes an RPC request enum and generates channel implementations.</dd></dl><script type="text/json" id="notable-traits-data">{"&[u8]":"<h3>Notable traits for <code>&amp;[<a class=\"primitive\" href=\"https://doc.rust-lang.org/1.87.0/std/primitive.u8.html\">u8</a>]</code></h3><pre><code><div class=\"where\">impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.87.0/std/io/trait.Read.html\" title=\"trait std::io::Read\">Read</a> for &amp;[<a class=\"primitive\" href=\"https://doc.rust-lang.org/1.87.0/std/primitive.u8.html\">u8</a>]</div>"}</script></section></div></main></body></html>

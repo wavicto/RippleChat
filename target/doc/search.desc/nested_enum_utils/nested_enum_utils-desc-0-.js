@@ -1,0 +1,1 @@
+searchState.loadedDescShard("nested_enum_utils", 0, "Usage example:\nDerive macro that generates conversions between an enum …")

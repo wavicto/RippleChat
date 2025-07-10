@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["FreeformClass","IdentifierClass"],"trait":["SpecificDerivedPropertyValue","StringClass"]};

@@ -1,0 +1,1 @@
+searchState.loadedDescShard("pnet_macros", 0, "The pnet_macros crate provides the <code>#[packet]</code> macro and …\nThe entry point for the <code>derive(Packet)</code> custom derive\nThe entry point for the <code>packet</code> proc_macro_attribute")
