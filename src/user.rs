@@ -1,5 +1,8 @@
 use iroh::{protocol::Router, Endpoint};
 use iroh_gossip::{net::Gossip, proto::TopicId, ALPN};
+use futures_lite::StreamExt;
+use iroh_gossip::api::GossipReceiver;
+mod message;
 
 pub struct User {
     endpoint : Endpoint,
@@ -29,4 +32,13 @@ impl User {
             name
         })
     }
+
+    pub async fn read(mut receiver: GossipReceiver) -> anyhow::Result<()> {
+        while let Some(event) = receiver.try_next().await? {
+            
+        }
+        Ok(())
+    }
+
 }
+
