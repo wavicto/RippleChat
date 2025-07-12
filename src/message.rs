@@ -34,8 +34,20 @@ impl Message {
         serde_json::to_vec(self).expect("serde_json::to_vec is infallible")
     }
 
-    pub fn verify_msg (&self) -> bool {
+    pub fn verify (&self) -> bool {
         let hash = Sha256::digest(&self.text);
         self.sender_id.verify(&hash, &self.signature).is_ok()
+    }
+
+    pub fn get_name(&self) -> &String {
+        &self.sender_name
+    }
+
+    pub fn get_text(&self) -> &String {
+        &self.text
+    }
+
+    pub fn get_id(&self) -> &NodeId {
+        &self.sender_id
     }
 }
