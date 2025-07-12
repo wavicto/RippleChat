@@ -13,6 +13,8 @@ pub struct User {
 }
 
 impl User {
+    //Constructor for a User with a given name
+    //Sets up iroh node, endpoint, gossip protocol, router, and generates a topic ID
     pub async fn new(name: String) -> anyhow::Result<Self> {
         let endpoint = Endpoint::builder().discovery_n0().bind().await?;
 
@@ -33,6 +35,7 @@ impl User {
         })
     }
 
+    //Reads and displays incoming messages from the receiver stream
     pub async fn read(mut receiver: GossipReceiver) -> anyhow::Result<()> {
         while let Some(event) = receiver.try_next().await? {
             if let iroh_gossip::api::Event::Received(message) = event {
@@ -56,6 +59,9 @@ impl User {
         Ok(())
     }
 
+    //Starts an input loop (sync)
+    //Should be ran in a separate thread to avoid blocking the async runtime
+    //Employs a mpsc channel that sends user messages between the async and sync threads
     fn input_loop(transmitter: tokio::sync::mpsc::Sender<String>) -> anyhow::Result<()> {
         let mut buffer = String::new();
         let stdin = std::io::stdin();
