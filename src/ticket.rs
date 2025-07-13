@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 
 
 #[derive(Debug, Serialize, Deserialize)]
-struct ChatTicket {
+pub struct ChatTicket {
     topic: TopicId,
     nodes: Vec<NodeAddr>,
 }
