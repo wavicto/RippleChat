@@ -29,6 +29,15 @@ impl ChatTicket {
     pub fn to_bytes(&self) -> Vec<u8> {
         serde_json::to_vec(self).expect("serde_json::to_vec is infallible")
     }
+
+    //Returns a vector of node addresses
+    pub fn get_node_addrs(&self) -> &Vec<NodeAddr> {
+        &self.nodes
+    }
+
+    pub fn get_topic_id(&self) -> &TopicId {
+        &self.topic
+    }
 }
 
 //Turns ticket from bytes into base32 string
