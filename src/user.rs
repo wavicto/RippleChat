@@ -2,6 +2,7 @@ use iroh::NodeId;
 use iroh::{protocol::Router, Endpoint, discovery::static_provider::StaticProvider};
 use iroh_gossip::{net::Gossip, proto::TopicId, api::GossipReceiver, api::GossipSender, ALPN};
 use futures_lite::StreamExt;
+use std::io::{self, Write};
 use crate::message::Message;
 use crate::ticket::ChatTicket;
 
@@ -10,7 +11,7 @@ pub struct User {
     gossip : Gossip,
     router : Router,
     topic_id : TopicId,
-    discovery : StaticProvider
+    discovery : StaticProvider,
 }
 
 impl User {
@@ -64,7 +65,7 @@ impl User {
     }
 
     //Reads and displays incoming messages from the receiver stream
-    pub async fn read(mut receiver: GossipReceiver) -> anyhow::Result<()> {
+    pub async fn read(mut receiver: GossipReceiver, name : String) -> anyhow::Result<()> {
         while let Some(event) = receiver.try_next().await? {
             if let iroh_gossip::api::Event::Received(message) = event {
                 let msg = Message::from_bytes(&message.content);
@@ -75,7 +76,12 @@ impl User {
                                     Claiming to be from {} / {}", msg.get_name(), msg.get_id());
                         }
                         else {
-                            println!("{} : {}", msg.get_name(), msg.get_text());
+                            print!("\r\x1b[2K");
+                            io::stdout().flush().unwrap();
+                            println!("<{}> : {}", msg.get_name().trim(), msg.get_text().trim());
+
+                            print!("<{}>: ", name);
+                            io::stdout().flush().expect("Failed to flush stdout");
                         }
                     }
                     Err(e) => {
@@ -90,11 +96,13 @@ impl User {
     //Starts an input loop (sync)
     //Should be ran in a separate thread to avoid blocking the async runtime
     //Employs a mpsc channel that sends user messages between the async and sync threads
-    pub fn input_loop(transmitter: tokio::sync::mpsc::Sender<String>) -> anyhow::Result<()> {
+    pub fn input_loop(name : String, transmitter: tokio::sync::mpsc::Sender<String>) -> anyhow::Result<()> {
         let mut buffer = String::new();
-        let stdin = std::io::stdin();
+        let stdin = io::stdin();
     
         loop {
+            print!("<{}>: ", name);
+            io::stdout().flush().expect("Failed to flush stdout");
             stdin.read_line(&mut buffer)?;
             transmitter.blocking_send(buffer.clone())?;
             buffer.clear();

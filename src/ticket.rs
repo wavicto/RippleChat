@@ -35,6 +35,7 @@ impl ChatTicket {
         &self.nodes
     }
 
+    //Returns topic id of a ticket
     pub fn get_topic_id(&self) -> &TopicId {
         &self.topic
     }

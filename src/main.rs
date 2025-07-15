@@ -30,13 +30,15 @@ async fn main() -> anyhow::Result<()> {
         .read_line(&mut name)
         .expect("Failed to read user input");
 
+    name = name.trim().to_string();
+
     let mut client = User::new().await?;
     let node_addr = client.get_endpoint().node_addr().initialized().await?;
 
     println!("{}", COMMAND_LIST);
 
     loop {
-        print!("<{}>: ", name.trim());
+        print!("<{}>: ", name);
         io::stdout().flush().expect("Failed to flush stdout");
 
         let mut input = String::new();
@@ -57,6 +59,8 @@ async fn main() -> anyhow::Result<()> {
                 break;
             }
             "/open" => {
+                let read_clone: String = name.clone();
+                let input_clone: String = name.clone();
                 let ticket = ChatTicket::new(client.create_topic(), vec![node_addr.clone()]);
                 println!("\n\tChatroom Ticket: \n\n{}\n", ticket);
 
@@ -71,10 +75,9 @@ async fn main() -> anyhow::Result<()> {
 
                 println!("\nConnected");
 
-                tokio::spawn(User::read(receiver));
-
+                tokio::spawn(User::read(receiver, read_clone));
                 let (tx, mut rx) = tokio::sync::mpsc::channel(1);
-                std::thread::spawn(move || User::input_loop(tx));
+                std::thread::spawn(move || User::input_loop(input_clone, tx));
 
                 while let Some(text) = rx.recv().await {
                     match text.trim() {
@@ -95,7 +98,6 @@ async fn main() -> anyhow::Result<()> {
                             );
 
                             sender.broadcast(message.to_vec().into()).await?;
-                            println!("<{}>: {}", name, text);
                         }
                     }
                 }
@@ -105,6 +107,8 @@ async fn main() -> anyhow::Result<()> {
                     Some(("/join", ticket)) => {
                         match ChatTicket::from_str(ticket.trim()) {
                             Ok(t) => {
+                                let read_clone: String = name.clone();
+                                let input_clone: String = name.clone();
                                 println!("\nJoining chatroom ...");
 
                                 let (mut sender, receiver) = match client.join_room(&t).await {
@@ -117,10 +121,10 @@ async fn main() -> anyhow::Result<()> {
 
                                 println!("\nRoom joined ...");
 
-                                tokio::spawn(User::read(receiver));
+                                tokio::spawn(User::read(receiver, read_clone));
 
                                 let (tx, mut rx) = tokio::sync::mpsc::channel(1);
-                                std::thread::spawn(move || User::input_loop(tx));
+                                std::thread::spawn(move || User::input_loop(input_clone, tx));
 
                                 while let Some(text) = rx.recv().await {
                                     match text.trim() {
@@ -141,7 +145,6 @@ async fn main() -> anyhow::Result<()> {
                                             );
 
                                             sender.broadcast(message.to_vec().into()).await?;
-                                            println!("<{}>: {}", name, text);
                                         }
                                     }
                                 }
