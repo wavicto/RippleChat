@@ -102,7 +102,7 @@ impl User {
     
         loop {
             print!("<{}>: ", name);
-            io::stdout().flush().expect("Failed to flush stdout");
+            io::stdout().flush().unwrap();
             stdin.read_line(&mut buffer)?;
             transmitter.blocking_send(buffer.clone())?;
             buffer.clear();

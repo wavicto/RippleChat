@@ -21,7 +21,7 @@ async fn main() -> anyhow::Result<()> {
 
     println!("Welcome to Speaky!");
     print!("Please enter a username: ");
-    io::stdout().flush().expect("Failed to flush stdout");
+    io::stdout().flush().unwrap();
 
     let stdin = std::io::stdin();
     let mut name = String::new();
@@ -39,7 +39,7 @@ async fn main() -> anyhow::Result<()> {
 
     loop {
         print!("<{}>: ", name);
-        io::stdout().flush().expect("Failed to flush stdout");
+        io::stdout().flush().unwrap();
 
         let mut input = String::new();
         stdin
@@ -73,7 +73,7 @@ async fn main() -> anyhow::Result<()> {
                     }
                 };
 
-                println!("\nConnected");
+                println!("\nConnection found.");
 
                 tokio::spawn(User::read(receiver, read_clone));
                 let (tx, mut rx) = tokio::sync::mpsc::channel(1);
@@ -82,10 +82,18 @@ async fn main() -> anyhow::Result<()> {
                 while let Some(text) = rx.recv().await {
                     match text.trim() {
                         "/help" => {
+                            print!("\r\x1b[2K");
+                            io::stdout().flush().unwrap();
                             println!("{}", COMMAND_LIST);
+                            print!("<{}>: ", name);
+                            io::stdout().flush().unwrap();
                         }
                         "/exit" => {
-                            println!("Please leave the chat first before exiting.");
+                            print!("\r\x1b[2K");
+                            io::stdout().flush().unwrap();
+                            println!("\nPlease leave the chat first before exiting.\n");
+                            print!("<{}>: ", name);
+                            io::stdout().flush().unwrap();
                         }
                         "/leave" => {
                             let msg = String::from("System: User has disconnected.");
@@ -103,7 +111,7 @@ async fn main() -> anyhow::Result<()> {
                                 eprintln!("Error shutting down gossip: {}.\nMaybe restart program?", e);
                             }
                             client.restart_chat();
-                            println!("You have disconnected from the chat.");
+                            println!("\nYou have disconnected from the chat.\n");
                             break;
                         }
                         _ => {
@@ -136,7 +144,7 @@ async fn main() -> anyhow::Result<()> {
                                     }
                                 };
 
-                                println!("\nRoom joined ...");
+                                println!("\nRoom joined.\n");
 
                                 tokio::spawn(User::read(receiver, read_clone));
 
@@ -146,10 +154,18 @@ async fn main() -> anyhow::Result<()> {
                                 while let Some(text) = rx.recv().await {
                                     match text.trim() {
                                         "/help" => {
+                                            print!("\r\x1b[2K");
+                                            io::stdout().flush().unwrap();
                                             println!("{}", COMMAND_LIST);
+                                            print!("<{}>: ", name);
+                                            io::stdout().flush().unwrap();
                                         }
                                         "/exit" => {
-                                            println!("Please leave the chat first before exiting.");
+                                            print!("\r\x1b[2K");
+                                            io::stdout().flush().unwrap();
+                                            println!("\nPlease leave the chat first before exiting.\n");
+                                            print!("<{}>: ", name);
+                                            io::stdout().flush().unwrap();
                                         }
                                         "/leave" => {
                                             let msg = String::from("System: User has disconnected.");
