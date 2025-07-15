@@ -78,7 +78,7 @@ impl User {
                         else {
                             print!("\r\x1b[2K");
                             io::stdout().flush().unwrap();
-                            println!("<{}> : {}", msg.get_name().trim(), msg.get_text().trim());
+                            println!("<{}>: {}", msg.get_name().trim(), msg.get_text().trim());
 
                             print!("<{}>: ", name);
                             io::stdout().flush().expect("Failed to flush stdout");
@@ -124,8 +124,13 @@ impl User {
         Ok(())
     }
 
-    pub async fn shutdown_chat(&self) {
-        self.gossip.shutdown().await;
+    pub async fn shutdown_chat(&self) -> anyhow::Result<()> {
+        match self.gossip.shutdown().await {
+            Ok(_) => Ok(()),
+            Err(e) => {
+                Err(e.into())
+            }
+        }
     }
 
     pub fn restart_chat(&mut self) {

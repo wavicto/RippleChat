@@ -81,13 +81,30 @@ async fn main() -> anyhow::Result<()> {
 
                 while let Some(text) = rx.recv().await {
                     match text.trim() {
-                        "/leave" => {
-                            client.shutdown_chat().await;
-                            client.restart_chat();
-                            continue;
-                        }
                         "/help" => {
                             println!("{}", COMMAND_LIST);
+                        }
+                        "/exit" => {
+                            println!("Please leave the chat first before exiting.");
+                        }
+                        "/leave" => {
+                            let msg = String::from("System: User has disconnected.");
+                            let disconnect_msg = Message::new(
+                                msg,
+                                name.clone(),
+                                client.get_endpoint().node_id().clone(),
+                                client.get_endpoint().secret_key().clone(),
+                            );
+                            sender.broadcast(disconnect_msg.to_vec().into()).await?;
+                            tokio::time::sleep(std::time::Duration::from_millis(100)).await;
+                            print!("\r\x1b[2K");
+                            io::stdout().flush().unwrap();
+                            if let Err(e) = client.shutdown_chat().await {
+                                eprintln!("Error shutting down gossip: {}.\nMaybe restart program?", e);
+                            }
+                            client.restart_chat();
+                            println!("You have disconnected from the chat.");
+                            break;
                         }
                         _ => {
                             let message = Message::new(
@@ -128,13 +145,30 @@ async fn main() -> anyhow::Result<()> {
 
                                 while let Some(text) = rx.recv().await {
                                     match text.trim() {
-                                        "/leave" => {
-                                            client.shutdown_chat();
-                                            client.restart_chat();
-                                            continue;
-                                        }
                                         "/help" => {
                                             println!("{}", COMMAND_LIST);
+                                        }
+                                        "/exit" => {
+                                            println!("Please leave the chat first before exiting.");
+                                        }
+                                        "/leave" => {
+                                            let msg = String::from("System: User has disconnected.");
+                                            let disconnect_msg = Message::new(
+                                                msg,
+                                                name.clone(),
+                                                client.get_endpoint().node_id().clone(),
+                                                client.get_endpoint().secret_key().clone(),
+                                            );
+                                            sender.broadcast(disconnect_msg.to_vec().into()).await?;
+                                            tokio::time::sleep(std::time::Duration::from_millis(100)).await;
+                                            print!("\r\x1b[2K");
+                                            io::stdout().flush().unwrap();
+                                            if let Err(e) = client.shutdown_chat().await {
+                                                eprintln!("Error shutting down gossip: {}.\nMaybe restart program?", e);
+                                            }
+                                            client.restart_chat();
+                                            println!("You have disconnected from the chat.");
+                                            break;
                                         }
                                         _ => {
                                             let message = Message::new(
