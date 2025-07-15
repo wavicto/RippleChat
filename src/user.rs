@@ -39,6 +39,8 @@ impl User {
         })
     }
 
+    //Opens a chatroom by connecting gossip to a topic
+    //Waits for at least one other connection
     pub async fn open_room(&self) -> anyhow::Result<(GossipSender, GossipReceiver)> {
         let (sender, receiver) = self.gossip
             .subscribe_and_join(self.topic_id, vec![])
@@ -48,6 +50,7 @@ impl User {
         Ok((sender, receiver))
     }
 
+    //Joins a chatroom by connecting gossip to a topic
     pub async fn join_room(&self, ticket : &ChatTicket) -> anyhow::Result<(GossipSender, GossipReceiver)> {
 
         for addr in ticket.get_node_addrs() {
@@ -109,21 +112,24 @@ impl User {
         }
     }
 
-    pub fn create_topic(&mut self) -> TopicId {
-            self.topic_id = TopicId::from_bytes(rand::random());
+    //Returns the user's topic id
+    pub fn get_topic_id(&self) -> TopicId {
             self.topic_id.clone()
-        }
+    }
 
+    //Returns the user's endpoint
     pub fn get_endpoint(&self) -> &Endpoint {
         &self.endpoint
     }
 
+    //Shuts down the user
     //Errors are ignored since router is shutdown when the program is closed
-    pub async fn shutdown(&self) -> anyhow::Result<()> {
+    pub async fn shutdown_user(&self) -> anyhow::Result<()> {
         let _ = self.router.shutdown().await;
         Ok(())
     }
 
+    //Shuts down the chat
     pub async fn shutdown_chat(&self) -> anyhow::Result<()> {
         match self.gossip.shutdown().await {
             Ok(_) => Ok(()),
@@ -133,6 +139,7 @@ impl User {
         }
     }
 
+    //Restarts the chat by creating a new gossip instance
     pub fn restart_chat(&mut self) {
             self.gossip = Gossip::builder().spawn(self.endpoint.clone());
             self.topic_id = TopicId::from_bytes(rand::random());

@@ -55,13 +55,13 @@ async fn main() -> anyhow::Result<()> {
             }
             "/exit" => {
                 println!("Exiting the application...");
-                client.shutdown().await?;
+                client.shutdown_user().await?;
                 break;
             }
             "/open" => {
                 let read_clone: String = name.clone();
                 let input_clone: String = name.clone();
-                let ticket = ChatTicket::new(client.create_topic(), vec![node_addr.clone()]);
+                let ticket = ChatTicket::new(client.get_topic_id(), vec![node_addr.clone()]);
                 println!("\n\tChatroom Ticket: \n\n{}\n", ticket);
 
                 println!("Waiting for connections ...");
