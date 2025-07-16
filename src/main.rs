@@ -51,10 +51,10 @@ async fn main() -> anyhow::Result<()> {
                 println!("{}", COMMAND_LIST);
             }
             "/leave" => {
-                println!("You need to be in a chatroom to leave.");
+                println!("\nYou need to be in a chatroom to leave.\n");
             }
             "/exit" => {
-                println!("Exiting the application...");
+                println!("\nExiting the application ...\n");
                 client.shutdown_user().await?;
                 break;
             }
@@ -73,7 +73,7 @@ async fn main() -> anyhow::Result<()> {
                     }
                 };
 
-                println!("\nConnection found.");
+                println!("\nConnection found.\n");
 
                 tokio::spawn(User::read(receiver, read_clone));
                 let (tx, mut rx) = tokio::sync::mpsc::channel(1);
@@ -183,7 +183,7 @@ async fn main() -> anyhow::Result<()> {
                                                 eprintln!("Error shutting down gossip: {}.\nMaybe restart program?", e);
                                             }
                                             client.restart_chat();
-                                            println!("You have disconnected from the chat.");
+                                            println!("\nYou have disconnected from the chat.\n");
                                             break;
                                         }
                                         _ => {
@@ -207,7 +207,7 @@ async fn main() -> anyhow::Result<()> {
                         }
                     }
                     _ => {
-                        println!("Unknown command. Type /help for a list of commands.");
+                        println!("\nUnknown command. Type /help for a list of commands.\n");
                     }
                 }
             }

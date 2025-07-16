@@ -107,9 +107,16 @@ impl User {
             print!("<{}>: ", name);
             io::stdout().flush().unwrap();
             stdin.read_line(&mut buffer)?;
+            let data = buffer.trim().to_string();
+
             transmitter.blocking_send(buffer.clone())?;
             buffer.clear();
+
+            if data == "/leave" {
+                break;
+            }
         }
+        Ok(())
     }
 
     //Returns the user's topic id
