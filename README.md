@@ -26,16 +26,25 @@ Implemented through the gossip protocol.
 
 Allowing users behind routers, firewalls, or private networks to connect.
 
-## Dependencies
-
-- Rust (1.75+)
-- Internet connection for DNS-based discovery
-- `cargo` installed
-
 ## Build Instructions
 
 ```bash
 git clone https://github.com/wavicto/ripplechat.git
 cd ripplechat
 cargo run --release
+```
+## Commands
+Here are the commands used to navigate **RippleChat**
 
+```bash
+/help             Displays this list of commands.
+/open             Opens a new chatroom. Shares a ticket that others can use to join.
+/join [ticket]    Joins an existing chatroom using a ticket.
+/leave            Leaves the currently joined chatroom.
+/exit             Closes the application (you must /leave the chatroom first).
+```
+## Dependencies
+
+- Rust (1.75+)
+- Internet connection for DNS-based discovery
+- `cargo` installed
