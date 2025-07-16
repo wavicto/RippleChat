@@ -19,7 +19,7 @@ async fn main() -> anyhow::Result<()> {
         /exit - Closes the application
     "#;
 
-    println!("Welcome to Speaky!");
+    println!("Welcome to RippleChat!");
     print!("Please enter a username: ");
     io::stdout().flush().unwrap();
 
